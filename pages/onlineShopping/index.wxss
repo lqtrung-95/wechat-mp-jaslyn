@@ -1,0 +1,294 @@
+page {
+  background-color: #f0f2f5;
+  color: #0f172a;
+  font-size: 28rpx;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', sans-serif;
+  line-height: 1.5;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 32rpx;
+  box-sizing: border-box;
+}
+
+.language-toggle {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16rpx;
+}
+
+.language-toggle__btn {
+  border: none;
+  background: rgba(15, 23, 42, 0.08);
+  color: #0f172a;
+  padding: 12rpx 32rpx;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+}
+
+.form-card {
+  background: #fff;
+  border-radius: 32rpx;
+  padding: 32rpx;
+  box-shadow: 0 20rpx 50rpx rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
+}
+
+.form-card__header {
+  display: flex;
+  gap: 24rpx;
+  align-items: center;
+}
+
+.form-card__emoji {
+  font-size: 48rpx;
+}
+
+.form-card__title {
+  font-size: 36rpx;
+  font-weight: 700;
+}
+
+.form-card__subtitle {
+  font-size: 26rpx;
+  color: #475569;
+}
+
+.info-banner {
+  border-radius: 24rpx;
+  padding: 28rpx;
+  font-size: 26rpx;
+}
+
+.info-banner--supported {
+  background-color: #eef5ff;
+  border: 2rpx solid rgba(37, 99, 235, 0.25);
+}
+
+.info-banner__title {
+  font-weight: 600;
+  margin-bottom: 12rpx;
+}
+
+.info-banner__text {
+  display: block;
+  color: #0f172a;
+}
+
+.info-banner__desc {
+  display: block;
+  color: #475569;
+  margin-top: 8rpx;
+}
+
+.section {
+  border-top: 2rpx solid #f1f5f9;
+  padding-top: 24rpx;
+}
+
+.section:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.section__title {
+  display: flex;
+  align-items: center;
+  font-size: 30rpx;
+  font-weight: 700;
+  margin-bottom: 24rpx;
+}
+
+.section__icon {
+  margin-right: 12rpx;
+}
+
+.section__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24rpx;
+}
+
+.field {
+  width: 100%;
+}
+
+.field--half {
+  flex: 1 1 calc(50% - 24rpx);
+}
+
+.field--full {
+  flex: 1 1 100%;
+}
+
+.field__label {
+  font-size: 26rpx;
+  color: #475569;
+  margin-bottom: 12rpx;
+  display: block;
+}
+
+.field__control,
+.field__textarea,
+.picker__trigger {
+  width: 100%;
+  border: 2rpx solid #e6e9f3;
+  border-radius: 24rpx;
+  padding: 0 30rpx;
+  background-color: #f7f9ff;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-height: 94rpx;
+}
+.field__control {
+  display: flex;
+  align-items: center;
+}
+
+.field__textarea {
+  min-height: 170rpx;
+  padding-top: 24rpx;
+  padding-bottom: 24rpx;
+  line-height: 1.55;
+}
+
+.picker__trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #0f172a;
+  min-height: 88rpx;
+  padding: 0 28rpx;
+}
+
+.picker__trigger--disabled {
+  color: #94a3b8;
+}
+
+.picker__text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+
+.picker__text--placeholder {
+  color: #9aa4c2;
+}
+
+.picker__chevron {
+  font-size: 30rpx;
+  color: #7c86a0;
+  margin-left: 16rpx;
+}
+
+.field__control::placeholder,
+.field__textarea::placeholder {
+  color: #9aa4c2;
+}
+
+.field__control:focus,
+.field__textarea:focus {
+  border-color: #7c93ff;
+  background-color: #fff;
+  box-shadow: 0 6rpx 18rpx rgba(84, 110, 255, 0.18);
+}
+
+.note {
+  display: block;
+  margin-top: 16rpx;
+  font-size: 24rpx;
+}
+
+.note--secondary {
+  color: #b45309;
+}
+
+.note--danger {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.helper-list {
+  margin-top: 12rpx;
+  padding: 20rpx;
+  background-color: #f8fafc;
+  border-radius: 20rpx;
+}
+
+.helper-list__intro {
+  font-size: 24rpx;
+  color: #475569;
+  margin-bottom: 8rpx;
+}
+
+.helper-list__item {
+  font-size: 24rpx;
+  color: #6b7280;
+}
+
+.message-banner {
+  padding: 24rpx;
+  border-radius: 24rpx;
+  font-size: 26rpx;
+  margin-top: 20rpx;
+}
+
+.message-banner.success {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.message-banner.error {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.section__actions {
+  margin-top: 24rpx;
+}
+
+.section__actions button {
+  width: 100%;
+}
+
+button.secondary-btn {
+  background-color: #f9f9fb;
+  color: #6b7280;
+  border-radius: 999rpx;
+  border: 2rpx solid #e3e6f2;
+  font-size: 28rpx;
+  padding: 24rpx;
+}
+
+button.primary-btn {
+  background-color: #0f172a;
+  color: #fff;
+  border-radius: 999rpx;
+  border: none;
+  font-size: 28rpx;
+  padding: 28rpx;
+  box-shadow: 0 12rpx 28rpx rgba(15, 23, 42, 0.25);
+}
+
+button.primary-btn[disabled] {
+  background-color: #cbd5f5;
+  color: rgba(255, 255, 255, 0.75);
+  box-shadow: none;
+}
+
+.primary-btn--block {
+  width: 100%;
+  margin-top: 16rpx;
+}
+
+.form-hint {
+  font-size: 24rpx;
+  color: #94a3b8;
+  display: block;
+  margin-top: 16rpx;
+}

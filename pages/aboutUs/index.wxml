@@ -1,0 +1,15 @@
+<view class="page">
+  <view class="language-toggle">
+    <button class="language-toggle__btn" bindtap="toggleLanguage">{{language === 'zh' ? 'EN' : '中文'}}</button>
+  </view>
+
+  <view class="hero">
+    <view class="hero__title">{{language === 'zh' ? '关于 J\'s Global Link' : 'About J\'s Global Link'}}</view>
+    <view class="hero__subtitle">{{language === 'zh' ? '我们是一支专注海外代点的团队' : 'A concierge team focused on overseas ordering'}}</view>
+  </view>
+
+  <view class="section-card about-section">
+    <view class="section-card__title">{{language === 'zh' ? '我们在做什么' : 'What we do'}}</view>
+    <view class="paragraph" wx:for="{{content.paragraphs}}" wx:key="*this">{{item}}</view>
+  </view>
+</view>

@@ -1,0 +1,48 @@
+{
+  "pages": [
+    "pages/foodDelivery/index",
+    "pages/onlineShopping/index",
+    "pages/instructions/index",
+    "pages/aboutUs/index",
+    "pages/gulp-error/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "J's Global Link",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#f5f7fb",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#94a3b8",
+    "selectedColor": "#0f172a",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/foodDelivery/index",
+        "text": "Food",
+        "iconPath": "assets/tabbar/food.png",
+        "selectedIconPath": "assets/tabbar/food-active.png"
+      },
+      {
+        "pagePath": "pages/onlineShopping/index",
+        "text": "Shopping",
+        "iconPath": "assets/tabbar/shopping.png",
+        "selectedIconPath": "assets/tabbar/shopping-active.png"
+      },
+      {
+        "pagePath": "pages/instructions/index",
+        "text": "Guide",
+        "iconPath": "assets/tabbar/guide.png",
+        "selectedIconPath": "assets/tabbar/guide-active.png"
+      },
+      {
+        "pagePath": "pages/aboutUs/index",
+        "text": "About",
+        "iconPath": "assets/tabbar/about.png",
+        "selectedIconPath": "assets/tabbar/about-active.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}
