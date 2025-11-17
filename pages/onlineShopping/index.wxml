@@ -5,7 +5,6 @@
 
   <view class="form-card">
     <view class="form-card__header">
-      <view class="form-card__emoji">📦</view>
       <view>
         <view class="form-card__title">{{pageCopy.heroTitle}}</view>
         <view class="form-card__subtitle">{{pageCopy.heroSubtitle}}</view>
@@ -13,37 +12,36 @@
     </view>
 
     <view class="info-banner info-banner--supported">
-      <view class="info-banner__title">🌐 {{globalCopy.supportedAreasTitle}}</view>
+      <view class="info-banner__title">🌍 {{globalCopy.supportedAreasTitle}}</view>
       <view class="info-banner__body">
-        <text class="info-banner__text">{{supportedSummary ? globalCopy.supportedAreasHint + supportedSummary : globalCopy.supportedAreasFallback}}</text>
-        <text class="info-banner__desc">{{globalCopy.supportedAreasDescription}}</text>
+        <text class="info-banner__text">{{pageCopy.supportedAreasContent}}</text>
       </view>
     </view>
 
+    <!-- Address Section -->
     <view class="section">
       <view class="section__title">
         <text class="section__icon">📍</text>
         <text>{{globalCopy.deliverySectionTitle}}</text>
       </view>
 
+      <!-- Address Preview Card -->
+      <view wx:if="{{formData.country || formData.customCountry}}" class="address-preview-card">
+        <view class="address-preview-content">
+          <text wx:if="{{selectedCountry}}" class="address-preview-flag">{{selectedCountry.flag}}</text>
+          <view class="address-preview-text">
+            <text class="address-preview-label">{{globalCopy.deliverySectionTitle}}</text>
+            <text class="address-preview-value">{{isCustomCountry ? formData.customCountry : formData.country}}{{formData.city ? ' · ' + formData.city : ''}}</text>
+          </view>
+        </view>
+      </view>
+
       <view class="section__grid">
         <view class="field field--half">
-          <text class="field__label">{{globalCopy.countryLabel}} *</text>
+          <text class="field__label">{{globalCopy.countryLabel}}</text>
           <picker mode="selector" range="{{countryOptions}}" value="{{selectedCountryIndex < 0 ? 0 : selectedCountryIndex}}" bindchange="handleCountryChange">
             <view class="picker__trigger">
-              <text class="picker__text {{isCustomCountry || selectedCountryIndex === -1 ? 'picker__text--placeholder' : ''}}">{{isCustomCountry ? globalCopy.customOptionLabel : selectedCountryIndex > -1 ? formData.country : globalCopy.countryLabel}}</text>
-              <text class="picker__chevron">⌵</text>
-            </view>
-          </picker>
-        </view>
-
-        <view class="field field--half">
-          <text class="field__label">{{globalCopy.cityLabel}} *</text>
-          <picker mode="selector" range="{{cityOptions}}" value="{{selectedCityIndex < 0 ? 0 : selectedCityIndex}}" bindchange="handleCityChange" disabled="{{isCustomCountry || !cityOptions.length}}">
-            <view class="picker__trigger {{isCustomCountry || !cityOptions.length ? 'picker__trigger--disabled' : ''}}">
-              <text class="picker__text {{isCustomCountry || selectedCityIndex === -1 ? 'picker__text--placeholder' : ''}}">
-                {{isCustomCountry ? globalCopy.customCityLabel : selectedCityIndex > -1 ? formData.city : globalCopy.cityLabel}}
-              </text>
+              <text class="picker__text {{isCustomCountry || selectedCountryIndex === -1 ? 'picker__text--placeholder' : ''}}">{{isCustomCountry ? globalCopy.customOptionLabel : selectedCountryIndex > -1 ? countryOptions[selectedCountryIndex] : globalCopy.selectCountry}}</text>
               <text class="picker__chevron">⌵</text>
             </view>
           </picker>
@@ -54,14 +52,17 @@
           <input class="field__control" placeholder="{{globalCopy.customCountryPlaceholder}}" value="{{formData.customCountry}}" data-field="customCountry" bindinput="handleInput" />
         </view>
 
-        <view class="field field--half" wx:if="{{isCustomCountry}}">
-          <text class="field__label">{{globalCopy.customCityLabel}}</text>
-          <input class="field__control" placeholder="{{globalCopy.customCityPlaceholder}}" value="{{formData.customCity}}" data-field="customCity" bindinput="handleInput" />
-        </view>
-
-        <view class="field field--full">
-          <text class="field__label">{{globalCopy.districtLabel}}</text>
-          <input class="field__control" placeholder="{{globalCopy.districtPlaceholder}}" value="{{formData.district}}" data-field="district" bindinput="handleInput" />
+        <view class="field field--half">
+          <text class="field__label">{{globalCopy.cityLabel}}</text>
+          <picker wx:if="{{!isCustomCountry}}" mode="selector" range="{{cityOptions}}" value="{{selectedCityIndex < 0 ? 0 : selectedCityIndex}}" bindchange="handleCityChange" disabled="{{!cityOptions.length}}">
+            <view class="picker__trigger {{!cityOptions.length ? 'picker__trigger--disabled' : ''}}">
+              <text class="picker__text {{selectedCityIndex === -1 ? 'picker__text--placeholder' : ''}}">
+                {{selectedCityIndex > -1 ? formData.city : globalCopy.selectCity}}
+              </text>
+              <text class="picker__chevron">⌵</text>
+            </view>
+          </picker>
+          <input wx:if="{{isCustomCountry}}" class="field__control" placeholder="{{globalCopy.customCityPlaceholder}}" value="{{formData.customCity}}" data-field="customCity" bindinput="handleInput" />
         </view>
 
         <view class="field field--full">
@@ -71,46 +72,54 @@
       </view>
 
       <text class="note note--secondary">{{globalCopy.cityNote}}</text>
-      <text class="form-hint">{{globalCopy.formAddressHint}}</text>
+
+      <view wx:if="{{!formData.country && !formData.customCountry}}" class="message-banner warning">
+        <text>⚠️ {{globalCopy.formAddressHint}}</text>
+      </view>
 
       <view wx:if="{{validationResult}}" class="message-banner {{validationResult.state}}">{{validationResult.message}}</view>
 
       <view class="section__actions">
-        <button class="secondary-btn" bindtap="handleValidateAddress" loading="{{validating}}" disabled="{{validating}}">{{globalCopy.validationButton}}</button>
+        <button class="secondary-btn" bindtap="handleValidateAddress" loading="{{validating}}" disabled="{{validating || (!formData.country && !formData.customCountry) || (!formData.city && !formData.customCity) || !formData.detailAddress}}">{{globalCopy.validationButton}}</button>
       </view>
     </view>
 
+    <!-- Requirements Section -->
     <view class="section">
       <view class="section__title">
         <text class="section__icon">🛍️</text>
         <text>{{globalCopy.requirementsSectionTitle}}</text>
       </view>
+      
       <view class="field field--full">
-        <text class="field__label">{{pageCopy.requirementLabel}} *</text>
-        <input class="field__control" placeholder="{{pageCopy.requirementPlaceholder}}" value="{{formData.foodType}}" data-field="foodType" bindinput="handleInput" />
+        <text class="field__label">{{pageCopy.requirementLabel}}</text>
+        <picker mode="selector" range="{{productTypeOptions}}" value="{{selectedProductTypeIndex}}" bindchange="handleProductTypeChange">
+          <view class="picker__trigger">
+            <text class="picker__text {{selectedProductTypeIndex === -1 ? 'picker__text--placeholder' : ''}}">{{selectedProductTypeIndex > -1 ? formData.foodType : pageCopy.requirementPlaceholder}}</text>
+            <text class="picker__chevron">⌵</text>
+          </view>
+        </picker>
       </view>
+
       <view class="field field--full">
         <text class="field__label">{{globalCopy.notesLabel}}</text>
-        <textarea class="field__textarea" placeholder="{{globalCopy.notesPlaceholder}}" value="{{formData.notes}}" data-field="notes" bindinput="handleInput"></textarea>
-      </view>
-      <view class="helper-list">
-        <text class="helper-list__intro">{{globalCopy.notesHelperIntro}}</text>
-        <view class="helper-list__item" wx:for="{{globalCopy.notesHelperBullets}}" wx:key="*this">• {{item}}</view>
+        <textarea class="field__textarea" placeholder="{{pageCopy.notesPlaceholderSpecific}}" value="{{formData.notes}}" data-field="notes" bindinput="handleInput"></textarea>
       </view>
     </view>
 
+    <!-- Contact Section -->
     <view class="section">
       <view class="section__title">
-        <text class="section__icon">☎️</text>
+        <text class="section__icon">📞</text>
         <text>{{globalCopy.contactSectionTitle}}</text>
       </view>
       <view class="section__grid">
         <view class="field field--half">
-          <text class="field__label">{{globalCopy.contactNameLabel}} *</text>
+          <text class="field__label">{{globalCopy.contactNameLabel}}</text>
           <input class="field__control" placeholder="{{globalCopy.contactNamePlaceholder}}" value="{{formData.customerName}}" data-field="customerName" bindinput="handleInput" />
         </view>
         <view class="field field--half">
-          <text class="field__label">{{globalCopy.contactPhoneLabel}} *</text>
+          <text class="field__label">{{globalCopy.contactPhoneLabel}}</text>
           <input class="field__control" placeholder="{{globalCopy.contactPhonePlaceholder}}" value="{{formData.customerPhone}}" data-field="customerPhone" bindinput="handleInput" />
         </view>
         <view class="field field--full">
@@ -121,8 +130,11 @@
     </view>
 
     <view wx:if="{{submitResult}}" class="message-banner {{submitResult.state}}">{{submitResult.message}}</view>
-    <text class="note note--danger">{{globalCopy.submitReminder}}</text>
+    
+    <view wx:if="{{!validationResult || validationResult.state !== 'success'}}" class="message-banner error">
+      <text>{{globalCopy.submitReminder}}</text>
+    </view>
 
-    <button class="primary-btn primary-btn--block" bindtap="handleSubmit" loading="{{submitting}}" disabled="{{submitting}}">{{globalCopy.submitButton}}</button>
+    <button class="primary-btn primary-btn--block" bindtap="handleSubmit" loading="{{submitting}}" disabled="{{submitting || !validationResult || validationResult.state !== 'success'}}">{{globalCopy.submitButton}}</button>
   </view>
 </view>

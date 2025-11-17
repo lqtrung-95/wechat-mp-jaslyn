@@ -1,4 +1,7 @@
-export const API_BASE_URL = '';
+// Update this to your deployed Supabase backend URL
+// For local development, use: http://localhost:3000
+// For production, use your deployed URL (e.g., https://your-app.vercel.app)
+export const API_BASE_URL = 'http://localhost:3000';
 
 export const SERVICE_TYPES = {
     FOOD: 'food',
@@ -13,8 +16,8 @@ export function buildApiUrl(path) {
 }
 
 export const API_ENDPOINTS = {
-    validateAddress: (serviceType) => buildApiUrl(`/api/address/validate?type=${serviceType}`),
-    submitOrder: () => buildApiUrl('/api/order/submit'),
+    validateAddress: () => buildApiUrl('/api/validate-address'),
+    submitOrder: () => buildApiUrl('/api/submit-order'),
     supportedCountries: (serviceType) => {
         if (serviceType === SERVICE_TYPES.SHOPPING) {
             return buildApiUrl('/api/supported-countries/shopping');

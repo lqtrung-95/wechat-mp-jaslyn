@@ -17,6 +17,16 @@ const defaultFormState = {
     customCity: '',
 };
 
+const productTypeOptions = [
+    '👕 服装',
+    '💄 美妆',
+    '📱 电子产品',
+    '🍫 食品',
+    '🧴 日用品',
+    '🎒 户外用品',
+    '📦 其他',
+];
+
 function stripFlagEmoji(text = '') {
     return text.replace(/(?:\uD83C[\uDDE6-\uDDFF]){2}\s*/g, '').trim();
 }
@@ -29,8 +39,11 @@ Page({
         countries: [],
         countryOptions: [],
         cityOptions: [],
+        productTypeOptions: productTypeOptions,
         selectedCountryIndex: -1,
         selectedCityIndex: -1,
+        selectedProductTypeIndex: -1,
+        selectedCountry: null,
         isCustomCountry: false,
         formData: { ...defaultFormState },
         validationResult: null,
@@ -66,6 +79,9 @@ Page({
     loadCountries() {
         const formatted = SHOPPING_REGIONS.map((item) => ({
             displayName: item.country,
+            displayNameEn: item.countryEn,
+            flag: item.flag,
+            countryCode: item.countryCode,
             cities: item.cities,
         }));
         this.setData({
@@ -76,13 +92,17 @@ Page({
         this.updateCountryOptions();
     },
     updateCountryOptions() {
-        const options = this.data.countries.map((item) => item.displayName || '');
+        const { language } = this.data;
+        const options = this.data.countries.map((item) => {
+            const name = language === 'zh' ? item.displayName : item.displayNameEn;
+            return `${item.flag} ${name}`;
+        });
         options.push(this.data.globalCopy.customOptionLabel);
         this.setData({ countryOptions: options });
     },
     handleCountryChange(event) {
         const index = Number(event.detail.value);
-        const { countryOptions } = this.data;
+        const { countryOptions, language } = this.data;
         const isCustom = index === countryOptions.length - 1;
         if (isCustom) {
             this.setData({
@@ -90,6 +110,7 @@ Page({
                 isCustomCountry: true,
                 cityOptions: [],
                 selectedCityIndex: -1,
+                selectedCountry: null,
                 validationResult: null,
                 submitResult: null,
                 formData: {
@@ -104,16 +125,18 @@ Page({
         }
         const country = this.data.countries[index];
         const cityOptions = (country?.cities || []).map((city) => city);
+        const countryName = language === 'zh' ? country?.displayName : country?.displayNameEn;
         this.setData({
             selectedCountryIndex: index,
             isCustomCountry: false,
+            selectedCountry: country,
             cityOptions,
             selectedCityIndex: -1,
             validationResult: null,
             submitResult: null,
             formData: {
                 ...this.data.formData,
-                country: country?.displayName || '',
+                country: country?.displayName || '', // Always use Chinese name for backend
                 customCountry: '',
                 customCity: '',
                 city: '',
@@ -145,6 +168,17 @@ Page({
         if (['country', 'city', 'customCountry', 'customCity', 'district'].includes(field)) {
             this.setData({ validationResult: null, submitResult: null });
         }
+    },
+    handleProductTypeChange(event) {
+        const index = Number(event.detail.value);
+        const productType = productTypeOptions[index] || '';
+        this.setData({
+            selectedProductTypeIndex: index,
+            formData: {
+                ...this.data.formData,
+                foodType: productType,
+            },
+        });
     },
     getLocationPayload() {
         const { formData, isCustomCountry } = this.data;
@@ -215,7 +249,7 @@ Page({
             country: isCustomCountry ? formData.customCountry.trim() : formData.country.trim(),
             city: isCustomCountry ? formData.customCity.trim() : formData.city.trim(),
             district: formData.district.trim(),
-            detailedAddress: formData.detailAddress.trim(),
+            detailAddress: formData.detailAddress.trim(), // Changed from detailedAddress to detailAddress
             foodType: formData.foodType.trim(),
             notes: formData.notes.trim(),
         };
@@ -225,6 +259,7 @@ Page({
             formData: { ...defaultFormState },
             selectedCountryIndex: -1,
             selectedCityIndex: -1,
+            selectedProductTypeIndex: -1,
             isCustomCountry: false,
             cityOptions: [],
         });

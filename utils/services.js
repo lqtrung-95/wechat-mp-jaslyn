@@ -3,7 +3,7 @@ import { request } from './request';
 
 export function validateAddress(serviceType, payload) {
     return request({
-        url: API_ENDPOINTS.validateAddress(serviceType),
+        url: API_ENDPOINTS.validateAddress(),
         method: 'POST',
         data: payload,
     });

@@ -1,26 +1,28 @@
-import { DEFAULT_LANGUAGE, LANGUAGE_STORAGE_KEY } from '../../config/i18n';
-import { aboutContent } from '../../config/about';
+import { DEFAULT_LANGUAGE, LANGUAGE_STORAGE_KEY, getLanguagePack } from '../../config/i18n';
 
 Page({
     data: {
         language: DEFAULT_LANGUAGE,
-        content: aboutContent[DEFAULT_LANGUAGE],
+        content: getLanguagePack(DEFAULT_LANGUAGE, 'about').pageCopy,
     },
     onLoad() {
-        const stored = wx.getStorageSync(LANGUAGE_STORAGE_KEY);
-        const lang = stored || DEFAULT_LANGUAGE;
-        this.setLanguage(lang);
+        this.initLanguage();
     },
-    setLanguage(lang) {
-        const safeLang = aboutContent[lang] ? lang : DEFAULT_LANGUAGE;
+    initLanguage() {
+        const stored = wx.getStorageSync(LANGUAGE_STORAGE_KEY);
+        const pack = getLanguagePack(stored || DEFAULT_LANGUAGE, 'about');
         this.setData({
-            language: safeLang,
-            content: aboutContent[safeLang],
+            language: pack.language,
+            content: pack.pageCopy,
         });
-        wx.setStorageSync(LANGUAGE_STORAGE_KEY, safeLang);
     },
     toggleLanguage() {
         const next = this.data.language === 'zh' ? 'en' : 'zh';
-        this.setLanguage(next);
+        const pack = getLanguagePack(next, 'about');
+        this.setData({
+            language: pack.language,
+            content: pack.pageCopy,
+        });
+        wx.setStorageSync(LANGUAGE_STORAGE_KEY, next);
     },
 });
