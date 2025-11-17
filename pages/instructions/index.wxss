@@ -12,21 +12,6 @@ page {
   box-sizing: border-box;
 }
 
-.language-toggle {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16rpx;
-}
-
-.language-toggle__btn {
-  border: none;
-  background: rgba(15, 23, 42, 0.08);
-  color: #0f172a;
-  padding: 12rpx 32rpx;
-  border-radius: 999rpx;
-  font-size: 26rpx;
-}
-
 .hero {
   background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
   border-radius: 32rpx;
@@ -35,17 +20,49 @@ page {
   box-shadow: 0 20rpx 50rpx rgba(15, 23, 42, 0.15);
 }
 
+.hero__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24rpx;
+}
+
 .hero__title {
   font-size: 40rpx;
   font-weight: 700;
   color: #fff;
   margin-bottom: 16rpx;
+  line-height: 1.2;
 }
 
 .hero__subtitle {
   font-size: 26rpx;
   color: rgba(255, 255, 255, 0.9);
   line-height: 1.6;
+}
+
+.language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 12rpx 20rpx;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 20rpx;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+  backdrop-filter: blur(10rpx);
+}
+
+.language-switcher__icon {
+  font-size: 28rpx;
+  line-height: 1;
+}
+
+.language-switcher__text {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #fff;
+  line-height: 1;
 }
 
 .section-card {

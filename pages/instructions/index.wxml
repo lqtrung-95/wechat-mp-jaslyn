@@ -1,11 +1,15 @@
 <view class="page">
-  <view class="language-toggle">
-    <button class="language-toggle__btn" bindtap="toggleLanguage">{{language === 'zh' ? 'EN' : '中文'}}</button>
-  </view>
-
   <view class="hero">
-    <view class="hero__title">{{language === 'zh' ? '使用指南' : 'How to use'}}</view>
-    <view class="hero__subtitle">{{language === 'zh' ? '快速了解如何提交需求并跟进订单。' : 'Everything you need to know before submitting a request.'}}</view>
+    <view class="hero__header">
+      <view>
+        <view class="hero__title">{{language === 'zh' ? '使用指南' : 'How to use'}}</view>
+        <view class="hero__subtitle">{{language === 'zh' ? '快速了解如何提交需求并跟进订单。' : 'Everything you need to know before submitting a request.'}}</view>
+      </view>
+      <view class="language-switcher" bindtap="toggleLanguage">
+        <text class="language-switcher__icon">🌐</text>
+        <text class="language-switcher__text">{{language === 'zh' ? 'EN' : '中'}}</text>
+      </view>
+    </view>
   </view>
 
   <view class="section-card">

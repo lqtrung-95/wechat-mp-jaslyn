@@ -1,13 +1,16 @@
 <view class="page">
-  <view class="language-toggle">
-    <button class="language-toggle__btn" bindtap="toggleLanguage">{{globalCopy.languageToggleLabel}}</button>
-  </view>
-
   <view class="form-card">
     <view class="form-card__header">
-      <view>
+      <view class="form-card__header-content">
+        <view>
         <view class="form-card__title">{{pageCopy.heroTitle}}</view>
-        <view class="form-card__subtitle">{{pageCopy.heroSubtitle}}</view>
+          <view class="form-card__title">{{pageCopy.heroTitle.replace(pageCopy.heroTitle.split(' ')[0], '').trim()}}</view>
+          <view class="form-card__subtitle">{{pageCopy.heroSubtitle}}</view>
+        </view>
+      </view>
+      <view class="language-switcher" bindtap="toggleLanguage">
+        <text class="language-switcher__icon">🌐</text>
+        <text class="language-switcher__text">{{language === 'zh' ? 'EN' : '中'}}</text>
       </view>
     </view>
 
@@ -56,9 +59,7 @@
           <text class="field__label">{{globalCopy.cityLabel}}</text>
           <picker wx:if="{{!isCustomCountry}}" mode="selector" range="{{cityOptions}}" value="{{selectedCityIndex < 0 ? 0 : selectedCityIndex}}" bindchange="handleCityChange" disabled="{{!cityOptions.length}}">
             <view class="picker__trigger {{!cityOptions.length ? 'picker__trigger--disabled' : ''}}">
-              <text class="picker__text {{selectedCityIndex === -1 ? 'picker__text--placeholder' : ''}}">
-                {{selectedCityIndex > -1 ? formData.city : globalCopy.selectCity}}
-              </text>
+              <text class="picker__text {{selectedCityIndex === -1 ? 'picker__text--placeholder' : ''}}">{{selectedCityIndex > -1 ? formData.city : globalCopy.selectCity}}</text>
               <text class="picker__chevron">⌵</text>
             </view>
           </picker>
