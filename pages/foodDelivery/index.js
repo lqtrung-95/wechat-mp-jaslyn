@@ -1,7 +1,6 @@
-import { SERVICE_TYPES } from '../../config/api';
 import { DEFAULT_LANGUAGE, LANGUAGE_STORAGE_KEY, getLanguagePack } from '../../config/i18n';
 import { FOOD_REGIONS } from '../../config/regions_food';
-import { submitOrder, validateAddress } from '../../utils/services';
+import { getSupportedCountries, validateAddress, submitOrder } from '../../utils/local-services';
 const defaultFormState = {
     customerName: '',
     customerPhone: '',
@@ -209,22 +208,14 @@ Page({
             return;
         }
         this.setData({ validating: true });
-        validateAddress(SERVICE_TYPES.FOOD, {
+        const result = validateAddress({
             country,
             city,
-            district: this.data.formData.district,
-        })
-            .then((response) => {
-                const success = !!(response && (response.valid || response.supported));
-                const message = response?.message || (success ? globalCopy.validationManualMessage : globalCopy.validationErrorMessage);
-                this.setValidationResult(success ? 'success' : 'error', message);
-            })
-            .catch(() => {
-                this.setValidationResult('error', globalCopy.validationErrorMessage);
-            })
-            .finally(() => {
-                this.setData({ validating: false });
-            });
+            detailAddress: this.data.formData.detailAddress,
+        });
+        
+        this.setValidationResult(result.valid ? 'success' : 'error', result.message);
+        this.setData({ validating: false });
     },
     setValidationResult(state, message) {
         this.setData({
@@ -246,16 +237,15 @@ Page({
     buildSubmitPayload() {
         const { formData, isCustomCountry } = this.data;
         return {
-            serviceType: SERVICE_TYPES.FOOD,
-            customerName: formData.customerName.trim(),
-            customerPhone: formData.customerPhone.trim(),
-            customerWechat: formData.customerWechat.trim(),
+            serviceType: 'food',
+            contactName: formData.customerName.trim(),
+            contactPhone: formData.customerPhone.trim(),
+            contactWechat: formData.customerWechat.trim(),
             country: isCustomCountry ? formData.customCountry.trim() : formData.country.trim(),
             city: isCustomCountry ? formData.customCity.trim() : formData.city.trim(),
-            district: formData.district.trim(),
-            detailAddress: formData.detailAddress.trim(), // Changed from detailedAddress to detailAddress
+            detailAddress: formData.detailAddress.trim(),
             foodType: formData.foodType.trim(),
-            notes: formData.notes.trim(),
+            specialInstructions: formData.notes.trim(),
         };
     },
     resetForm() {
